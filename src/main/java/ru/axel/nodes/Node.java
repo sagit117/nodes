@@ -33,7 +33,7 @@ abstract public class Node {
         emit(name, null, this);
     }
 
-    private void emit(@NotNull String name, @Nullable Object data, @NotNull Node node) {
+    protected void emit(@NotNull String name, @Nullable Object data, @NotNull Node node) {
         if (handlers.containsKey(name)) {
             handlers.get(name).forEach(biConsumer -> biConsumer.accept(data, node));
         }
