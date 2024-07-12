@@ -8,7 +8,7 @@ import java.util.function.BiConsumer;
 
 abstract public class Node {
     final private Set<Node> nodes = new HashSet<>();
-    private Node rootNode = null;
+    final private Set<Node> rootNodes = new HashSet<>();
     final private Map<String, Set<BiConsumer<Object, Node>>> handlers = new HashMap<>();
 
     protected Node() {
@@ -16,12 +16,12 @@ abstract public class Node {
     }
 
     public @NotNull Node addChildNode(@NotNull Node node) {
-        nodes.add(node.setRootNode(this));
+        nodes.add(node.addRootNode(this));
         return this;
     }
 
-    private Node setRootNode(@NotNull Node node) {
-        rootNode = node;
+    private Node addRootNode(@NotNull Node node) {
+        rootNodes.add(node);
         return this;
     }
 
@@ -38,7 +38,7 @@ abstract public class Node {
             handlers.get(name).forEach(biConsumer -> biConsumer.accept(data, node));
         }
 
-        if (rootNode != null) rootNode.emit(name, data, node);
+        rootNodes.forEach(rootNode -> rootNode.emit(name, data, node));
     }
 
     @SuppressWarnings("unchecked")
