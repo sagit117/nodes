@@ -39,7 +39,7 @@ abstract public class Node {
             handlers.get(name).forEach(biConsumer -> biConsumer.accept(data, node));
         }
 
-        rootNode.emit(name, data, node);
+        if (rootNode != null) rootNode.emit(name, data, node);
     }
 
     @SuppressWarnings("unchecked")
